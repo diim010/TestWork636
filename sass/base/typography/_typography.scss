@@ -9,6 +9,51 @@ textarea {
 	font-size: 1rem;
 	line-height: $font__line-height-body;
 }
+a {
+	color: $color__link;
+	text-decoration: none;
+}
+.site-title {
+	font-size: 1.5rem;
+	line-height: 1.5;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	text-decoration: none;
+	font-weight: 200;
+	a {
+		color: #222 !important;
+		text-decoration: none;
+		&:hover {
+			color: #222;
+			text-decoration: none;
+		}
+	}
 
+}
+.site-description {
+	font-size: 11px;
+	color: #777;
+}
+nav.main-navigation {
+	ul {
+		li {
+			a {
+				text-transform: uppercase;
+				color: #222;
+				text-decoration: none;
+				font-weight: 200;
+				&:hover {
+					color: #222;
+				}
+			}
+		}
+		li.current_page_item {
+			a {
+				color: rgba(129, 15, 15, 0.862) !important;
+				font-weight: 300
+			}
+		}
+	}
+}
 @import "headings";
 @import "copy";

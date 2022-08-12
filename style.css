@@ -393,6 +393,51 @@ textarea {
 	line-height: 1.5;
 }
 
+a {
+	color: #4169e1;
+	text-decoration: none;
+}
+
+.site-title {
+	font-size: 1.5rem;
+	line-height: 1.5;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	text-decoration: none;
+	font-weight: 200;
+}
+
+.site-title a {
+	color: #222 !important;
+	text-decoration: none;
+}
+
+.site-title a:hover {
+	color: #222;
+	text-decoration: none;
+}
+
+.site-description {
+	font-size: 11px;
+	color: #777;
+}
+
+nav.main-navigation ul li a {
+	text-transform: uppercase;
+	color: #222;
+	text-decoration: none;
+	font-weight: 200;
+}
+
+nav.main-navigation ul li a:hover {
+	color: #222;
+}
+
+nav.main-navigation ul li.current_page_item a {
+	color: rgba(129, 15, 15, 0.862) !important;
+	font-weight: 300;
+}
+
 h1,
 h2,
 h3,
