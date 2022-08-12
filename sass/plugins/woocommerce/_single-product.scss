@@ -2,7 +2,8 @@
 
 	div.product {
 		position: relative;
-
+		display: flex;
+		flex-wrap: wrap;
 		.woocommerce-product-gallery {
 			position: relative;
 			float: left;
@@ -66,6 +67,23 @@
 					}
 				}
 			}
+		}
+		.summary {
+			margin: 0 0 0 50px !important;
+		}
+		.wc-tabs-wrapper {
+			width: 100%;
+			ul.tabs {
+				margin-top: 50px;
+				display: flex;
+				justify-content: start;
+				li {
+					padding: 0 10px;
+				}
+			}
+		}
+		section.related  {
+			width: 100%;
 		}
 	}
 }

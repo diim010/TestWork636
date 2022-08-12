@@ -460,6 +460,84 @@ body {
 	background: #f3f3f3;
 }
 
+.site {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.site header.site-header {
+	height: 70px;
+	background-color: #fff;
+	border-bottom: 2px solid #c3c3c3;
+	box-shadow: 1px 0px 10px #222;
+	display: flex;
+	align-items: center;
+	padding-right: 10%;
+	padding-left: 10%;
+}
+
+.site header.site-header .site-branding {
+	width: 40%;
+	display: flex;
+	align-items: center;
+	justify-content: start;
+}
+
+.site header.site-header .site-branding p {
+	padding: 0 10px 0 0;
+}
+
+.site header.site-header .main-navigation {
+	display: flex !important;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+.site header.site-header .main-navigation ul.nav-menu li {
+	margin-right: 15px;
+}
+
+.site main.site-main {
+	width: 80%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.site aside.widget-area {
+	border-top: 1px solid #c3c3c3;
+	width: 80%;
+	margin-right: auto;
+	margin-left: auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: start;
+}
+
+.site aside.widget-area section.widget_block {
+	width: 25%;
+	padding: 15px;
+}
+
+.site aside.widget-area section.widget_block ul {
+	margin-left: 0 !important;
+	padding-left: 0 !important;
+	list-style: none !important;
+}
+
+.site aside.widget-area section.widget_block ul li {
+	list-style: none;
+}
+
+.site footer.site-footer {
+	background-color: #222;
+	color: #fff;
+	display: flex;
+	justify-content: center;
+	padding: 30px 10%;
+	margin-top: auto;
+}
+
 hr {
 	background-color: #ccc;
 	border: 0;
