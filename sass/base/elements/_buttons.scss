@@ -3,9 +3,9 @@ input[type="button"],
 input[type="reset"],
 input[type="submit"] {
 	border: 1px solid;
-	border-color: $color__border-button;
-	border-radius: 3px;
-	background: $color__background-button;
+	border-color: $red;
+	border-radius: 0;
+	background: #fff;
 	color: rgba(0, 0, 0, 0.8);
 	line-height: 1;
 	padding: 0.6em 1em 0.4em;
@@ -17,5 +17,23 @@ input[type="submit"] {
 	&:active,
 	&:focus {
 		border-color: $color__border-button-focus;
+	}
+}
+button.single_add_to_cart_button {
+	background-color: #fff;
+	color: $red;
+	text-transform: uppercase;
+	border-color: $red;
+	border: 1px solid;
+	border-radius: 0;
+	height: 40px;
+	line-height: 40px;
+	padding-top: 0;
+	padding-bottom: 0;
+	cursor: pointer;
+	&:hover {
+		background-color: $red;
+		color: #fff;
+		border-color: $red;
 	}
 }

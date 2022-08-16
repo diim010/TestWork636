@@ -419,7 +419,6 @@ a {
 
 .site-description {
 	font-size: 11px;
-	color: #777;
 }
 
 nav.main-navigation ul li a {
@@ -667,9 +666,9 @@ input[type="button"],
 input[type="reset"],
 input[type="submit"] {
 	border: 1px solid;
-	border-color: #ccc #ccc #bbb;
-	border-radius: 3px;
-	background: #e6e6e6;
+	border-color: #5b1c1c;
+	border-radius: 0;
+	background: #fff;
 	color: rgba(0, 0, 0, 0.8);
 	line-height: 1;
 	padding: 0.6em 1em 0.4em;
@@ -690,6 +689,26 @@ input[type="reset"]:focus,
 input[type="submit"]:active,
 input[type="submit"]:focus {
 	border-color: #aaa #bbb #bbb;
+}
+
+button.single_add_to_cart_button {
+	background-color: #fff;
+	color: #5b1c1c;
+	text-transform: uppercase;
+	border-color: #5b1c1c;
+	border: 1px solid;
+	border-radius: 0;
+	height: 40px;
+	line-height: 40px;
+	padding-top: 0;
+	padding-bottom: 0;
+	cursor: pointer;
+}
+
+button.single_add_to_cart_button:hover {
+	background-color: #5b1c1c;
+	color: #fff;
+	border-color: #5b1c1c;
 }
 
 input[type="text"],

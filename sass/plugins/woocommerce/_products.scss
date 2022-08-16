@@ -6,17 +6,97 @@ ul.products {
 		list-style: none;
 		position: relative;
 		margin-bottom: 2em;
-
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		background-color: #fff !important;
+		position: relative;
+		span.onsale {
+			position: absolute;
+			top: 0;
+			left: 0;
+			background-color: rgba(56, 52, 52, 0.354);
+			padding: 0.5em 1em;
+			border-radius: 0;
+			font-size: 1.2em;
+			font-weight: bold;
+			color: $red;
+			text-transform: uppercase;
+			text-align: center;
+			line-height: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			z-index: 1;
+		}
 		img {
+			width: 100%;
 			display: block;
+		}
+		h2.woocommerce-loop-product__title {
+			text-align: center;
+			margin-top: 0px;
+			margin-bottom: 0px;
+			color: #222;
+			letter-spacing: 2px;
+			font-weight: 300;
+		}
+		span.price {
+			text-align: center;	
+			display: flex;
+			justify-content: center;
 		}
 
 		.button {
 			display: block;
 		}
+		a.add_to_cart_button {
+			margin-top: 10px;
+			display: block;
+			width: 100%;
+			text-align: center;
+			font-weight: 300;
+			text-transform: uppercase;
+			text-align: center;
+			line-height: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			z-index: 1;
+			text-align: center;
+			height: 30px;
+			line-height: 30px;
+			color: #222;
+			background: #fff;
+			font-size: 11px;
+			&:hover {
+				color: $red;
+			}
+		}
+		&:hover {
+			box-shadow: 1px 1px 20px #b3b3b3;
+		}
 	}
 }
-
+ul.page-numbers {
+	display: flex;
+	margin-left: 0;
+	justify-content: center;
+	li {
+		list-style: none;
+		padding-right: 10px;
+		a:visiteda:visited {
+			color: #222;
+			text-decoration: none;
+		} 	
+	}
+	li a.page-numbers {
+		color: #222;
+	}
+	li span.current {
+		color: $red;
+	}
+}
 @media screen and (min-width: 48em) {
 
 	ul.products {

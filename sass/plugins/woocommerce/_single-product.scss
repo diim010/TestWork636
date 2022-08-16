@@ -70,6 +70,21 @@
 		}
 		.summary {
 			margin: 0 0 0 50px !important;
+			form.cart {
+				display: flex;
+				justify-content: space-around;
+				align-items: center;
+				margin-top: 10px;
+				input {
+					margin-right: 20px;
+				}
+			}
+			.product_meta {
+				margin-bottom: 0;
+				display: flex;
+				flex-direction: column;
+				margin-top: 20px;
+			}
 		}
 		.wc-tabs-wrapper {
 			width: 100%;
