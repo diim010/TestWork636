@@ -142,6 +142,8 @@ function wt636_scripts() {
 	wp_style_add_data( 'wt636_-style', 'rtl', 'replace' );
 
 	wp_enqueue_script( 'wt636_-navigation', get_template_directory_uri() . '/js/navigation.js', array(), wt636_VERSION, true );
+	wp_enqueue_script( 'wt636_-front-product', get_template_directory_uri() . '/js/front-product.js', array(), wt636_VERSION, true );
+
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -182,5 +184,13 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 if ( class_exists( 'WooCommerce' ) ) {
 	require get_template_directory() . '/inc/woocommerce.php';
 	require get_template_directory() . '/inc/custom-fields.php';
+	require get_template_directory() . '/inc/fp/class-fp-core.php';
 
 }
+
+// function fp() {
+
+// 	return FP_Core::instance();
+// }
+
+// fp();
