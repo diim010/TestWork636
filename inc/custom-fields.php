@@ -1,155 +1,148 @@
 <?php
-
-function add_custom_fields() {
-
-    global $product, $post;
-    
-    echo '<div class="options_group">'; // Группировка полей.
-    
-    woocommerce_wp_text_input( array(
-    'id'                => '_text_field',
-    'label'             => __( 'Date', 'woocommerce' ),
-    'placeholder'       => 'Date',
-    'desc_tip'          => 'true',
-    'type'			 => 'date',
-    'custom_attributes' => array( 'required' => 'required' ),
-    'description'       => __( 'Pick date', 'woocommerce' ),
-    ) );
-    woocommerce_wp_select(
-        [
-            'id'      => '_select',
-            'label'   => 'Product type',
-            'options' => [
-                'rare'   => __( 'rare', 'woocommerce' ),
-                'unusual'   => __('unusual', 'woocommerce' ),
-                'frequent' => __( 'frequent', 'woocommerce' ),
-            ],
-        ]
-    );
-    echo '</div>'; // Группировка полей.
-
-    
+if(is_admin()) {
+    wp_enqueue_script('jquery-ui-datepicker');
+    wp_enqueue_style('jquery-ui-custom', get_template_directory_uri().'/css/jquery-ui-custom.css');
+    wp_enqueue_script('custom-js', get_template_directory_uri().'/js/custom-js.js');
+}
+add_action('admin_head','add_custom_scripts');
+function add_custom_scripts() {
+    global $custom_meta_fields, $post;
+     
+    $output = '<script type="text/javascript">
+                jQuery(function() {';
+                 
+    foreach ($custom_meta_fields as $field) { // loop through the fields looking for certain types
+        if($field['type'] == 'date')
+            $output .= 'jQuery(".datepicker").datepicker();';
     }
-    
-    add_action( 'woocommerce_product_options_general_product_data', 'add_custom_fields' );
-    
-    add_action( 'woocommerce_process_product_meta',
-    function( $post_id ) {
-        $product = wc_get_product( $post_id );  
-        $date = $_POST['_text_field'];
-        // update_post_meta( $post_id, '_text_field', $date );
-        $select = $_POST['_select'];
-        update_post_meta( $post_id, '_select', $select );
-        $product->save();
-    } );
-  
-    
-
-// image field
-add_action( 'add_meta_boxes', 'listing_image_add_metabox' );
-function listing_image_add_metabox () {
-	add_meta_box( 'listingimagediv', __( 'Listing Image', 'text-domain' ), 'listing_image_metabox', 'product', 'side', 'low');
+     
+    $output .= '});
+        </script&gt';
+         
+    echo $output;
 }
-
-function listing_image_metabox ( $post ) {
-	global $content_width, $_wp_additional_image_sizes;
-
-	$image_id = get_post_meta( $post->ID, '_listing_image_id', true );
-
-	$old_content_width = $content_width;
-	$content_width = 254;
-
-	if ( $image_id && get_post( $image_id ) ) {
-
-		if ( ! isset( $_wp_additional_image_sizes['post-thumbnail'] ) ) {
-			$thumbnail_html = wp_get_attachment_image( $image_id, array( $content_width, $content_width ) );
-		} else {
-			$thumbnail_html = wp_get_attachment_image( $image_id, 'post-thumbnail' );
-		}
-
-		if ( ! empty( $thumbnail_html ) ) {
-			$content = $thumbnail_html;
-			$content .= '<p class="hide-if-no-js"><a href="javascript:;" id="remove_listing_image_button" >' . esc_html__( 'Remove listing image', 'text-domain' ) . '</a></p>';
-			$content .= '<input type="hidden" id="upload_listing_image" name="_listing_cover_image" value="' . esc_attr( $image_id ) . '" />';
-		}
-
-		$content_width = $old_content_width;
-	} else {
-
-		$content = '<img src="" style="width:' . esc_attr( $content_width ) . 'px;height:auto;border:0;display:none;" />';
-		$content .= '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set listing image', 'text-domain' ) . '" href="javascript:;" id="upload_listing_image_button" id="set-listing-image" data-uploader_title="' . esc_attr__( 'Choose an image', 'text-domain' ) . '" data-uploader_button_text="' . esc_attr__( 'Set listing image', 'text-domain' ) . '">' . esc_html__( 'Set listing image', 'text-domain' ) . '</a></p>';
-		$content .= '<input type="hidden" id="upload_listing_image" name="_listing_cover_image" value="" />';
-
-	}
-
-	echo $content;
+function add_custom_meta_box() {
+    add_meta_box(
+        'custom_meta_box', // $id
+        'Custom Meta Box', // $title 
+        'show_custom_meta_box', // $callback
+        'product', // $page
+        'normal', // $context
+        'high'); // $priority
 }
+add_action('add_meta_boxes', 'add_custom_meta_box');
+// Field Array
+$prefix = 'custom_';
+$custom_meta_fields = array( 
+    array(
+        'label' => 'Date',
+        'desc'  => 'Start selling date',
+        'id'    => $prefix.'date',
+        'type'  => 'date'
+    ),
+    array(
+        'name'  => 'Image',
+        'desc'  => 'Featured image',
+        'id'    => $prefix.'image',
+        'type'  => 'image'
+    ),
+    array(
+        'label'=> 'Select Box',
+        'desc'  => 'Product type',
+        'id'    => $prefix.'select',
+        'type'  => 'select',
+        'options' => array (
+            'one' => array (
+                'label' => 'rare',
+                'value' => 'rare'
+            ),
+            'two' => array (
+                'label' => 'frequent',
+                'value' => 'frequent'
+            ),
+            'three' => array (
+                'label' => 'unusual',
+                'value' => 'unusual'
+            )
+        )
+    )
+);
 
-add_action( 'save_post', 'listing_image_save', 10, 1 );
-function listing_image_save ( $post_id ) {
-	if( isset( $_POST['_listing_cover_image'] ) ) {
-		$image_id = (int) $_POST['_listing_cover_image'];
-		update_post_meta( $post_id, '_listing_image_id', $image_id );
-	}
+// The Callback
+function show_custom_meta_box() {
+    global $custom_meta_fields, $post;
+    // Use nonce for verification
+    echo '<input type="hidden" name="custom_meta_box_nonce" value="'.wp_create_nonce(basename(__FILE__)).'" />';
+         
+        // Begin the field table and loop
+        echo '<table class="form-table">';
+        foreach ($custom_meta_fields as $field) {
+            // get value of this field if it exists for this post
+            $meta = get_post_meta($post->ID, $field['id'], true);
+            // begin a table row with
+            echo '<tr>
+                    <th><label for="'.$field['id'].'">'.$field['label'].'</label></th>
+                    <td>';
+                    switch($field['type']) {
+                        // select
+                        case 'select':
+                            echo '<select name="'.$field['id'].'" id="'.$field['id'].'">';
+                            foreach ($field['options'] as $option) {
+                                echo '<option', $meta == $option['value'] ? ' selected="selected"' : '', ' value="'.$option['value'].'">'.$option['label'].'</option>';
+                            }
+                            echo '</select><br /><span class="description">'.$field['desc'].'</span>';
+                        break;
+                        // date
+                        case 'date':
+                            echo '<input type="date" class="datepicker" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$meta.'" size="30" />
+                                    <br /><span class="description">'.$field['desc'].'</span>';
+                        break;
+                        // image
+                        case 'image':
+                            echo    '</td><td>';
+                            $image = get_template_directory_uri().'/images/image.png';  
+                            echo '<span class="custom_default_image" style="display:none">'.$image.'</span>';
+                            if ($meta) { $image = wp_get_attachment_image_src($meta, 'medium'); $image = $image[0]; }               
+                            echo    '<input name="'.$field['id'].'" type="hidden" class="custom_upload_image" value="'.$meta.'" />
+                                        <img src="'.$image.'" class="custom_preview_image" alt="" /><br />
+                                            <input class="custom_upload_image_button button" type="button" value="Choose Image" />
+                                            <small> <a href="#" class="custom_clear_image_button">Remove Image</a></small>
+                                            <br clear="all" /><span class="description">'.$field['desc'].'</span>';
+                        break;
+                    } //end switch
+            echo '</td></tr>';
+        } // end foreach
+        echo '</table>'; // end table
+    }
+    // Save the Data
+function save_custom_meta($post_id) {
+    global $custom_meta_fields;
+     
+    // verify nonce
+    if (!wp_verify_nonce($_POST['custom_meta_box_nonce'], basename(__FILE__))) 
+        return $post_id;
+    // check autosave
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+        return $post_id;
+    // check permissions
+    if ('product' == $_POST['post_type']) {
+        if (!current_user_can('edit_page', $post_id))
+            return $post_id;
+        } elseif (!current_user_can('edit_post', $post_id)) {
+            return $post_id;
+    }
+     
+    // loop through fields and save the data
+    foreach ($custom_meta_fields as $field) {
+        $old = get_post_meta($post_id, $field['id'], true);
+        $new = $_POST[$field['id']];
+        if ($new && $new != $old) {
+            update_post_meta($post_id, $field['id'], $new);
+        } elseif ('' == $new && $old) {
+            delete_post_meta($post_id, $field['id'], $old);
+        }
+    } // end foreach
 }
-add_action( 'admin_print_scripts', function() {
-    // I'm using NOWDOC notation to allow line breaks and unescaped quotation marks.
-    echo <<<'EOT'
-<script type="text/javascript">
-jQuery(document).ready(function($) {
+add_action('save_post', 'save_custom_meta');
 
-	// Uploading files
-	var file_frame;
-
-	jQuery.fn.upload_listing_image = function( button ) {
-		var button_id = button.attr('id');
-		var field_id = button_id.replace( '_button', '' );
-
-		// If the media frame already exists, reopen it.
-		if ( file_frame ) {
-		  file_frame.open();
-		  return;
-		}
-
-		// Create the media frame.
-		file_frame = wp.media.frames.file_frame = wp.media({
-		  title: jQuery( this ).data( 'uploader_title' ),
-		  button: {
-		    text: jQuery( this ).data( 'uploader_button_text' ),
-		  },
-		  multiple: false
-		});
-
-		// When an image is selected, run a callback.
-		file_frame.on( 'select', function() {
-		  var attachment = file_frame.state().get('selection').first().toJSON();
-		  jQuery("#"+field_id).val(attachment.id);
-		  jQuery("#listingimagediv img").attr('src',attachment.url);
-		  jQuery( '#listingimagediv img' ).show();
-		  jQuery( '#' + button_id ).attr( 'id', 'remove_listing_image_button' );
-		  jQuery( '#remove_listing_image_button' ).text( 'Remove listing image' );
-		});
-
-		// Finally, open the modal
-		file_frame.open();
-	};
-
-	jQuery('#listingimagediv').on( 'click', '#upload_listing_image_button', function( event ) {
-		event.preventDefault();
-		jQuery.fn.upload_listing_image( jQuery(this) );
-	});
-
-	jQuery('#listingimagediv').on( 'click', '#remove_listing_image_button', function( event ) {
-		event.preventDefault();
-		jQuery( '#upload_listing_image' ).val( '' );
-		jQuery( '#listingimagediv img' ).attr( 'src', '' );
-		jQuery( '#listingimagediv img' ).hide();
-		jQuery( this ).attr( 'id', 'upload_listing_image_button' );
-		jQuery( '#upload_listing_image_button' ).text( 'Set listing image' );
-	});
-
-});
-</script>
-EOT;
-}, PHP_INT_MAX );
 ?>
