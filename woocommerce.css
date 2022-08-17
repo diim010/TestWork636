@@ -336,10 +336,29 @@ ul.page-numbers li span.current {
 	margin-top: 50px;
 	display: flex;
 	justify-content: start;
+	border-bottom: 1px solid #222;
 }
 
 .single-product div.product .wc-tabs-wrapper ul.tabs li {
 	padding: 0 10px;
+}
+
+.single-product div.product .wc-tabs-wrapper ul.tabs li a {
+	color: #222;
+	font-size: 1.2em;
+	text-transform: uppercase;
+}
+
+.single-product div.product .wc-tabs-wrapper ul.tabs li a:hover {
+	color: #222;
+}
+
+.single-product div.product .wc-tabs-wrapper ul.tabs li.active {
+	background-color: #333;
+}
+
+.single-product div.product .wc-tabs-wrapper ul.tabs li.active a {
+	color: #fff;
 }
 
 .single-product div.product section.related {
